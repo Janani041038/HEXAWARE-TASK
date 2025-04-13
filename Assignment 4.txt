@@ -1,0 +1,370 @@
+CREATE DATABASE CourierManagementSystem_Hexa_v2;
+USE CourierManagementSystem_Hexa_v2;
+CREATE TABLE User (
+    UserID INT PRIMARY KEY,
+    Name VARCHAR(255),
+    Email VARCHAR(255) UNIQUE,
+    Password VARCHAR(255),
+    ContactNumber VARCHAR(20),
+    Address TEXT
+); 
+CREATE TABLE Courier (
+    CourierID INT PRIMARY KEY,
+    SenderName VARCHAR(255),
+    SenderAddress TEXT,
+    ReceiverName VARCHAR(255),
+    ReceiverAddress TEXT,
+    Weight DECIMAL(5,2),
+    Status VARCHAR(50),
+    TrackingNumber VARCHAR(20) UNIQUE,
+    DeliveryDate DATE,
+    UserID INT,
+    FOREIGN KEY (UserID) REFERENCES User(UserID)
+); 
+CREATE TABLE CourierServices (
+    ServiceID INT PRIMARY KEY,
+    ServiceName VARCHAR(100),
+    Cost DECIMAL(8,2)
+); 
+CREATE TABLE Employee (
+    EmployeeID INT PRIMARY KEY,
+    Name VARCHAR(255),
+    Email VARCHAR(255) UNIQUE,
+    ContactNumber VARCHAR(20),
+    Role VARCHAR(50),
+    Salary DECIMAL(10,2)
+); 
+CREATE TABLE Location (
+    LocationID INT PRIMARY KEY,
+    LocationName VARCHAR(100),
+    Address TEXT
+); 
+CREATE TABLE Payment (
+    PaymentID INT PRIMARY KEY,
+    CourierID INT,
+    LocationID INT,
+    Amount DECIMAL(10,2),
+    PaymentDate DATE,
+    FOREIGN KEY (CourierID) REFERENCES Courier(CourierID),
+    FOREIGN KEY (LocationID) REFERENCES Location(LocationID)
+); 
+INSERT INTO User VALUES
+(1, 'Ravi Kumar', 'ravi@gmail.com', 'ravi123', '9876543210', 'Delhi'),
+(2, 'Sneha Rani', 'sneha@gmail.com', 'sneha321', '9988776655', 'Mumbai'),
+(3, 'Arun Das', 'arun.das@gmail.com', 'arun456', '9123456780', 'Kolkata'),
+(4, 'Priya Sharma', 'priya@gmail.com', 'priya789', '9345612780', 'Chennai'),
+(5, 'Karan Mehta', 'karan.m@gmail.com', 'km123', '9845023412', 'Bangalore'),
+(6, 'Meena Joshi', 'meena.j@gmail.com', 'meena888', '9856712345', 'Hyderabad'),
+(7, 'Aman Verma', 'aman.v@gmail.com', 'aman456', '9753124680', 'Jaipur'),
+(8, 'Divya Nair', 'divya.n@gmail.com', 'divya987', '9945632187', 'Kerala'),
+(9, 'Rahul Yadav', 'rahul.y@gmail.com', 'ry567', '9445567890', 'Lucknow'),
+(10, 'Neha Jain', 'neha.jain@gmail.com', 'neha456', '9667788990', 'Ahmedabad');
+INSERT INTO Courier VALUES
+(101, 'Ravi Kumar', 'Delhi', 'Arun Singh', 'Pune', 2.5, 'Delivered', 'TRK123456', '2025-04-01', 1),
+(102, 'Sneha Rani', 'Mumbai', 'Priya Das', 'Chennai', 3.2, 'In Transit', 'TRK654321', '2025-04-11', 2),
+(103, 'Arun Das', 'Kolkata', 'Neha Jain', 'Ahmedabad', 4.0, 'Processing', 'TRK333222', '2025-04-12', 3),
+(104, 'Priya Sharma', 'Chennai', 'Karan Mehta', 'Bangalore', 1.5, 'Delivered', 'TRK789123', '2025-04-08', 4),
+(105, 'Karan Mehta', 'Bangalore', 'Meena Joshi', 'Hyderabad', 5.2, 'Cancelled', 'TRK000111', '2025-04-05', 5),
+(106, 'Meena Joshi', 'Hyderabad', 'Aman Verma', 'Jaipur', 2.1, 'In Transit', 'TRK777555', '2025-04-10', 6),
+(107, 'Aman Verma', 'Jaipur', 'Divya Nair', 'Kerala', 1.8, 'Delivered', 'TRK112233', '2025-04-03', 7),
+(108, 'Divya Nair', 'Kerala', 'Rahul Yadav', 'Lucknow', 3.7, 'Delivered', 'TRK987654', '2025-04-06', 8),
+(109, 'Rahul Yadav', 'Lucknow', 'Neha Jain', 'Ahmedabad', 6.5, 'Processing', 'TRK321654', '2025-04-13', 9),
+(110, 'Neha Jain', 'Ahmedabad', 'Ravi Kumar', 'Delhi', 2.0, 'In Transit', 'TRK654987', '2025-04-09', 10);
+INSERT INTO CourierServices VALUES
+(1, 'Standard', 100.00),
+(2, 'Express', 200.00),
+(3, 'Same Day', 300.00),
+(4, 'Overnight', 400.00),
+(5, 'International', 800.00),
+(6, 'Economy', 80.00),
+(7, 'Premium', 500.00),
+(8, 'Weekend Delivery', 250.00),
+(9, 'Bulk Delivery', 150.00),
+(10, 'Drone Delivery', 1000.00);
+INSERT INTO Employee VALUES
+(1, 'John Doe', 'john.doe@cms.com', '9123456780', 'Delivery Agent', 30000.00),
+(2, 'Jane Smith', 'jane@cms.com', '9112233445', 'Admin', 50000.00),
+(3, 'Aarav Singh', 'aarav@cms.com', '9345678901', 'Delivery Agent', 28000.00),
+(4, 'Pooja Rani', 'pooja@cms.com', '9445566123', 'Manager', 60000.00),
+(5, 'Suresh Rao', 'suresh@cms.com', '9334488990', 'Delivery Agent', 27000.00),
+(6, 'Rekha Das', 'rekha@cms.com', '9123458890', 'Admin', 47000.00),
+(7, 'Ishaan Kapoor', 'ishaan@cms.com', '9900112233', 'Delivery Agent', 32000.00),
+(8, 'Tanvi Nair', 'tanvi@cms.com', '9556677889', 'Admin', 51000.00),
+(9, 'Ajay Mehta', 'ajay@cms.com', '9001122334', 'Support', 35000.00),
+(10, 'Anjali Rao', 'anjali@cms.com', '9876543201', 'Delivery Agent', 29000.00);
+INSERT INTO Location VALUES
+(1, 'Delhi Center', 'Sector 10, Delhi'),
+(2, 'Mumbai Hub', 'Andheri East, Mumbai'),
+(3, 'Kolkata Point', 'Salt Lake, Kolkata'),
+(4, 'Chennai Spot', 'T Nagar, Chennai'),
+(5, 'Bangalore Base', 'Koramangala, Bangalore'),
+(6, 'Hyderabad Zone', 'Gachibowli, Hyderabad'),
+(7, 'Jaipur Node', 'MI Road, Jaipur'),
+(8, 'Kerala Wing', 'MG Road, Kochi'),
+(9, 'Lucknow Line', 'Hazratganj, Lucknow'),
+(10, 'Ahmedabad Depot', 'CG Road, Ahmedabad'); 
+INSERT INTO Payment VALUES
+(1, 101, 1, 100.00, '2025-04-02'),
+(2, 102, 2, 200.00, '2025-04-10'),
+(3, 103, 3, 150.00, '2025-04-12'),
+(4, 104, 4, 180.00, '2025-04-08'),
+(5, 105, 5, 300.00, '2025-04-05'),
+(6, 106, 6, 120.00, '2025-04-10'),
+(7, 107, 7, 100.00, '2025-04-03'),
+(8, 108, 8, 250.00, '2025-04-06'),
+(9, 109, 9, 400.00, '2025-04-13'),
+(10, 110, 10, 130.00, '2025-04-09');
+ALTER TABLE Courier ADD EmployeeID INT;
+
+task 2
+SELECT * FROM User;
+
+SELECT * FROM Courier WHERE UserID = 1;
+
+SELECT * FROM Courier;
+
+SELECT * FROM Courier WHERE CourierID = 101;
+
+SELECT * FROM Courier WHERE CourierID = 101 AND Status = 'Delivered';
+
+SELECT * FROM Courier WHERE Status != 'Delivered';
+
+SELECT * FROM Courier WHERE DeliveryDate = CURDATE();
+
+SELECT * FROM Courier WHERE Status = 'In Transit';
+
+SELECT UserID, COUNT(*) AS TotalPackages FROM Courier GROUP BY UserID;
+
+SELECT UserID, AVG(Weight) AS AvgWeight FROM Courier GROUP BY UserID;
+
+SELECT * FROM Courier WHERE Weight BETWEEN 2 AND 4;
+
+SELECT * FROM Employee WHERE Name LIKE '%John%';
+
+SELECT c.* FROM Courier c
+JOIN Payment p ON c.CourierID = p.CourierID
+WHERE p.Amount > 50; 
+
+task 3
+SELECT EmployeeID, COUNT(*) AS TotalCouriers
+FROM Courier
+GROUP BY EmployeeID; 
+
+SELECT LocationID, SUM(Amount) AS TotalRevenue
+FROM Payment
+GROUP BY LocationID;
+
+SELECT LocationID, COUNT(*) AS TotalDelivered
+FROM Courier
+JOIN Payment ON Courier.CourierID = Payment.CourierID
+GROUP BY LocationID;
+
+SELECT CourierID, AVG(DATEDIFF(DeliveryDate, CURDATE())) AS AvgDeliveryTime
+FROM Courier
+GROUP BY CourierID
+ORDER BY AvgDeliveryTime DESC
+LIMIT 1;
+
+SELECT LocationID, SUM(Amount) AS Total
+FROM Payment
+GROUP BY LocationID
+HAVING SUM(Amount) < 1000;
+
+SELECT LocationID, SUM(Amount) AS TotalPayments
+FROM Payment
+GROUP BY LocationID;
+
+SELECT CourierID, SUM(Amount) AS TotalAmount
+FROM Payment
+WHERE LocationID = X
+GROUP BY CourierID
+HAVING SUM(Amount) > 1000;
+
+SELECT CourierID, SUM(Amount) AS TotalAmount
+FROM Payment
+WHERE PaymentDate > '2025-04-01'
+GROUP BY CourierID
+HAVING SUM(Amount) > 1000;
+
+SELECT LocationID, SUM(Amount) AS TotalAmount
+FROM Payment
+WHERE PaymentDate < '2025-04-01'
+GROUP BY LocationID
+HAVING SUM(Amount) > 5000; 
+
+task 4 
+SELECT p.*, c.*
+FROM Payment p
+INNER JOIN Courier c ON p.CourierID = c.CourierID;
+
+SELECT p.*, l.*
+FROM Payment p
+INNER JOIN Location l ON p.LocationID = l.LocationID;
+
+SELECT p.*, c.*, l.*
+FROM Payment p
+INNER JOIN Courier c ON p.CourierID = c.CourierID
+INNER JOIN Location l ON p.LocationID = l.LocationID;
+
+SELECT p.PaymentID, p.Amount, c.TrackingNumber, c.Status
+FROM Payment p
+JOIN Courier c ON p.CourierID = c.CourierID;
+
+SELECT c.CourierID, SUM(p.Amount) AS TotalPayments
+FROM Courier c
+JOIN Payment p ON c.CourierID = p.CourierID
+GROUP BY c.CourierID;
+
+SELECT * FROM Payment
+WHERE PaymentDate = '2025-04-10';
+
+SELECT p.*, c.*
+FROM Payment p
+JOIN Courier c ON p.CourierID = c.CourierID;
+
+SELECT p.*, l.*
+FROM Payment p
+JOIN Location l ON p.LocationID = l.LocationID;
+
+SELECT c.CourierID, SUM(p.Amount) AS TotalPayments
+FROM Courier c
+JOIN Payment p ON c.CourierID = p.CourierID
+GROUP BY c.CourierID;
+
+SELECT * FROM Payment
+WHERE PaymentDate BETWEEN '2025-04-01' AND '2025-04-10';
+
+SELECT u.UserID, u.Name, c.*
+FROM User u
+LEFT JOIN Courier c ON u.UserID = c.UserID
+UNION
+SELECT u.UserID, u.Name, c.*
+FROM User u
+RIGHT JOIN Courier c ON u.UserID = c.UserID;
+
+SELECT c.CourierID, cs.ServiceName
+FROM Courier c
+LEFT JOIN CourierServices cs ON c.CourierID = cs.ServiceID
+UNION
+SELECT c.CourierID, cs.ServiceName
+FROM Courier c
+RIGHT JOIN CourierServices cs ON c.CourierID = cs.ServiceID;
+
+SELECT e.EmployeeID, e.Name, p.PaymentID, p.Amount
+FROM Employee e
+LEFT JOIN Payment p ON e.EmployeeID = p.PaymentID
+UNION
+SELECT e.EmployeeID, e.Name, p.PaymentID, p.Amount
+FROM Employee e
+RIGHT JOIN Payment p ON e.EmployeeID = p.PaymentID;
+
+SELECT u.Name, cs.ServiceName
+FROM User u
+CROSS JOIN CourierServices cs;
+
+SELECT e.Name, l.LocationName
+FROM Employee e
+CROSS JOIN Location l; 
+
+SELECT e.EmployeeID, e.Name, l.LocationID, l.LocationName
+FROM Employee e
+CROSS JOIN Location l;
+
+SELECT CourierID, SenderName, SenderAddress
+FROM Courier;
+
+SELECT CourierID, ReceiverName, ReceiverAddress
+FROM Courier;
+
+SELECT c.CourierID, c.TrackingNumber, cs.ServiceName, cs.Cost
+FROM Courier c
+LEFT JOIN CourierServices cs ON c.ServiceID = cs.ServiceID;
+
+SELECT e.EmployeeID, e.Name, COUNT(c.CourierID) AS CourierCount
+FROM Employee e
+LEFT JOIN Courier c ON e.EmployeeID = c.EmployeeID
+GROUP BY e.EmployeeID, e.Name;
+
+SELECT l.LocationID, l.LocationName, SUM(p.Amount) AS TotalReceived
+FROM Location l
+LEFT JOIN Payment p ON l.LocationID = p.LocationID
+GROUP BY l.LocationID, l.LocationName;
+
+SELECT * FROM Courier c1
+WHERE EXISTS (
+    SELECT 1 FROM Courier c2
+    WHERE c1.SenderName = c2.SenderName AND c1.CourierID != c2.CourierID
+);
+
+SELECT * FROM Employee e1
+WHERE EXISTS (
+    SELECT 1 FROM Employee e2
+    WHERE e1.Role = e2.Role AND e1.EmployeeID != e2.EmployeeID
+);
+
+SELECT p.*
+FROM Payment p
+JOIN Courier c ON p.CourierID = c.CourierID
+JOIN Location l ON p.LocationID = l.LocationID
+WHERE c.SenderAddress = l.Address;
+
+SELECT * FROM Courier c1
+WHERE EXISTS (
+    SELECT 1 FROM Courier c2
+    WHERE c1.SenderAddress = c2.SenderAddress AND c1.CourierID != c2.CourierID
+);
+
+SELECT e.EmployeeID, e.Name, COUNT(c.CourierID) AS DeliveredCouriers
+FROM Employee e
+JOIN Courier c ON e.EmployeeID = c.EmployeeID
+WHERE c.Status = 'Delivered'
+GROUP BY e.EmployeeID, e.Name;
+
+SELECT c.CourierID, cs.Cost, p.Amount
+FROM Courier c
+JOIN CourierServices cs ON c.ServiceID = cs.ServiceID
+JOIN Payment p ON c.CourierID = p.CourierID
+WHERE p.Amount > cs.Cost;
+
+SELECT * FROM Courier
+WHERE Weight > (
+    SELECT AVG(Weight) FROM Courier
+);
+
+SELECT Name FROM Employee
+WHERE Salary > (
+    SELECT AVG(Salary) FROM Employee
+);
+
+SELECT SUM(Cost) AS TotalCost FROM CourierServices
+WHERE Cost < (
+    SELECT MAX(Cost) FROM CourierServices
+);
+
+SELECT * FROM Courier
+WHERE CourierID IN (
+    SELECT CourierID FROM Payment
+);
+
+SELECT * FROM Location
+WHERE LocationID IN (
+    SELECT LocationID FROM Payment
+    WHERE Amount = (
+        SELECT MAX(Amount) FROM Payment
+    )
+);
+
+SELECT * FROM Courier
+WHERE Weight > ALL (
+    SELECT Weight FROM Courier
+    WHERE SenderName = 'Ravi Kumar'
+);
+
+
+
+
+
+
+
+
+   
